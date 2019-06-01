@@ -61,4 +61,17 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getUserById($id) {
+		$this->db->where('user_id', $id);
+		$this->db->limit(1);
+		$query = $this->db->get($this->table_name);
+		$result = $query->result_array();
+
+		if(count($result) == 1) {
+			return $result[0];
+		} else {
+			return false;
+		}
+	}
 }
