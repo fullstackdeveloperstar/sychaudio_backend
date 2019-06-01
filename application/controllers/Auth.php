@@ -4,25 +4,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-/*
- * Changes:
- * 1. This project contains .htaccess file for windows machine.
- *    Please update as per your requirements.
- *    Samples (Win/Linux): http://stackoverflow.com/questions/28525870/removing-index-php-from-url-in-codeigniter-on-mandriva
- *
- * 2. Change 'encryption_key' in application\config\config.php
- *    Link for encryption_key: http://jeffreybarke.net/tools/codeigniter-encryption-key-generator/
- * 
- * 3. Change 'jwt_key' in application\config\jwt.php
- *
- */
-
 class Auth extends REST_Controller
 {
+    private $postData;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('user_model');
+        $this->postData = $this->request->body;
+    }
+
     /**
-     * URL: http://localhost/CodeIgniter-JWT-Sample/auth/token
+     * URL: http://localhost/auth/token
      * Method: GET
      */
+
     public function token_get()
     {
         $tokenData = array();
@@ -32,7 +29,7 @@ class Auth extends REST_Controller
     }
 
     /**
-     * URL: http://localhost/CodeIgniter-JWT-Sample/auth/token
+     * URL: http://localhost/auth/token
      * Method: POST
      * Header Key: Authorization
      * Value: Auth token generated in GET call
@@ -50,5 +47,53 @@ class Auth extends REST_Controller
         }
 
         $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+    }
+
+    public function signup_post() {
+       
+        if(isset( $this->postData['email']) && isset( $this->postData['password']) && isset( $this->postData['c_password'])) {
+            $this->postData['email'] = filter_var($this->postData['email'], FILTER_VALIDATE_EMAIL);
+            if( $this->postData['email'] == '') {
+                $returnData['success'] = false;
+                $returnData['msg'] = "Email is not valid!";
+                $this->set_response($returnData, REST_Controller::HTTP_BAD_REQUEST);
+            }
+            
+            if( $this->postData['password'] !=  $this->postData['c_password']) {
+                $returnData['success'] = false;
+                $returnData['msg'] = "Password is not matched!";
+                $this->set_response($returnData, REST_Controller::HTTP_BAD_REQUEST);
+            }
+
+            if($this->user_model->checkEmailExist( $this->postData['email'])) {
+                $returnData['success'] = false;
+                $returnData['msg'] = "This email is exist already!";
+                $this->set_response($returnData, REST_Controller::HTTP_BAD_REQUEST);
+            } else {
+                $user['user_email'] = $this->postData['email'];
+                $user['user_password'] = getHashedPassword( $this->postData['password']);
+
+                $user_id = $this->user_model->addNewUser($user);
+                
+                if($user_id) {
+                    $returnData['success'] = true;
+                    $returnData['msg'] = "User is registered successfully!";
+                    $this->set_response($returnData, REST_Controller::HTTP_OK);
+                } else {
+                    $returnData['success'] = false;
+                    $returnData['msg'] = "Database Error!";
+                    $this->set_response($returnData, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                }
+            }
+
+        } else {
+            $returnData['success'] = false;
+            $returnData['msg'] = "Please input all register information.";
+            $this->set_response($returnData, REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+      
+        
+        
     }
 }
