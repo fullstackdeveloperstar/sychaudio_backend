@@ -24,4 +24,43 @@ class AUTHORIZATION
         return JWT::encode($data, $CI->config->item('jwt_key'));
     }
 
+    public static function checkAuth()
+    {
+        $CI = & get_instance();
+        $headers = $CI->input->request_headers();
+        
+        if (array_key_exists('Authorization', $headers) && !empty($headers['Authorization'])) {
+            $decodedToken = JWT::decode($headers['Authorization'], $CI->config->item('jwt_key'));
+            if ($decodedToken != false) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public static function checkAdminAuth()
+    {
+        $CI = & get_instance();
+        $headers = $CI->input->request_headers();
+        
+        if (array_key_exists('Authorization', $headers) && !empty($headers['Authorization'])) {
+            $decodedToken = JWT::decode($headers['Authorization'], $CI->config->item('jwt_key'));
+            if ($decodedToken != false) {
+                if($decodedToken->user_role == '0') {
+                    return true;
+                } else {
+                    return false;
+                }
+                
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
 }
