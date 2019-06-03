@@ -115,7 +115,7 @@ class Auth extends REST_Controller
                 $returnData['msg'] = "Email is not valid!";
                 $this->set_response($returnData, REST_Controller::HTTP_BAD_REQUEST);
             }
-
+            
             $where['user_email'] = $this->postData['email'];
             $users = $this->user_model->getUsersByWhere($where);
             if(count($users) == 1) {

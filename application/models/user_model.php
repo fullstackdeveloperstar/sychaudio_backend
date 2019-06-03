@@ -16,6 +16,7 @@ class User_model extends CI_Model
 
 	public function getUsersByWhere($where) {
 		$this->db->order_by('user_id','asc');
+		$this->db->where($where);
 		$query = $this->db->get($this->table_name);
 		$result = $query->result_array();
 		return $result;
