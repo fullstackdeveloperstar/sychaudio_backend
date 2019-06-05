@@ -13,10 +13,6 @@ class User extends REST_Controller
     {
         parent::__construct();
         
-        if(!AUTHORIZATION::checkAdminAuth()) {
-            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
-        } 
-
         $this->load->model('user_model');
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
@@ -29,12 +25,26 @@ class User extends REST_Controller
     */
 
     public function index_get() {
-        $headers = $this->input->request_headers();
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $headers = $this->input->request_headers();
 
-        $decodedToken = AUTHORIZATION::validateToken($headers['Authorization']);
-        
-        $admin_user = $this->user_model->getUserById($decodedToken->user_id);
+            $decodedToken = AUTHORIZATION::validateToken($headers['Authorization']);
+            
+            $admin_user = $this->user_model->getUserById($decodedToken->user_id);
 
-        $this->set_response($admin_user, REST_Controller::HTTP_OK);
-    }    
+            $this->set_response($admin_user, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function getallusers_get() {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $where = array();
+            $users = $this->user_model->getUsersByWhere($where);
+            $this->set_response($users, REST_Controller::HTTP_OK);
+        }
+    }
 }
