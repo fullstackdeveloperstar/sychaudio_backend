@@ -548,7 +548,8 @@ $config['allowed_cors_headers'] = [
   'X-Requested-With',
   'Content-Type',
   'Accept',
-  'Access-Control-Request-Method'
+  'Access-Control-Request-Method',
+  'Authorization'
 ];
 
 /*
@@ -590,4 +591,4 @@ $config['allow_any_cors_domain'] = true;
 | e.g. $config['allowed_origins'] = ['http://www.example.com', 'https://spa.example.com']
 |
 */
-$config['allowed_cors_origins'] = ['*'];
+$config['allowed_cors_origins'] = ['http://localhost:4200', 'http://localhost'];
