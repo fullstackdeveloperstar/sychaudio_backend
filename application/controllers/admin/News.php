@@ -48,4 +48,71 @@ class News extends REST_Controller
             }
         }
     }
+
+    public function news_patch($news_id) {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $where = array(
+                'news_id' => $news_id
+            );
+
+            $news_data['news_title'] = $this->postData['news_title'];
+            $news_data['news_thumb'] = $this->postData['news_thumb'];
+            $news_data['news_status'] = $this->postData['news_status'];
+            $news_data['news_content'] = $this->postData['news_content'];
+
+            $datestring = '%Y-%m-%d %h:%i:%s';
+            $time = time();
+            $news_data['updated_datetime'] =  mdate($datestring, $time);
+
+            $this->news_model->updateNews($news_data, $where);
+
+            $this->set_response($news_data, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function news_delete($news_id) {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $where = array(
+                'news_id' => $news_id
+            );
+
+            $news_data['is_deleted'] = '1';
+            $datestring = '%Y-%m-%d %h:%i:%s';
+            $time = time();
+            $news_data['deleted_datetime'] =  mdate($datestring, $time);
+
+            $this->news_model->updateNews($news_data, $where);
+
+            $this->set_response($news_data, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function newsthumb_post() {
+        $config['upload_path']          = './uploads/news/thumb/';
+        $config['allowed_types']        = 'jpg|png';
+        $config['max_size']             = 100;
+        $config['max_width']            = 1024;
+        $config['max_height']           = 1024;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('news_thumb'))
+        {
+            $error = array('error' => $this->upload->display_errors());
+
+            $this->set_response($error, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        else
+        {
+            $data = $this->upload->data();
+
+            $return_data['url'] = base_url() . 'uploads/news/thumb/' . $data['file_name'];
+
+            $this->set_response($return_data, REST_Controller::HTTP_OK);
+        }
+    }
 }
