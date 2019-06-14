@@ -19,13 +19,19 @@ class News extends REST_Controller
     }
 
     public function news_get()
-    {
-        
+    {   
         $where = array();
         $news = $this->news_model->getNewsByWhere($where);
         
         $this->set_response($news, REST_Controller::HTTP_OK);
     
+    }
+
+    public function newsitem_get($news_id)
+    {
+        $newsItem = $this->news_model->getNewsById($news_id);
+    
+        $this->set_response($newsItem, REST_Controller::HTTP_OK);
     }
 
     public function news_post() {
