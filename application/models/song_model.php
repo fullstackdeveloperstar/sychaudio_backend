@@ -1,21 +1,21 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 /**
-* News Model
+* Song Model
 */
 
-class News_model extends CI_Model
+class Song_model extends CI_Model
 {
 
-	private $table_name = 'tbl_news';
+	private $table_name = 'tbl_songs';
 
 	/**
-	* This function is get news by where clause
+	* This function is get songs by where clause
 	* @param  array $where: this is where clause
-	* @return array $result: news array
+	* @return array $result: songs array
 	*/
 
-	public function getNewsByWhere($where) {
-		$this->db->order_by('news_id','asc');
+	public function getSongsByWhere($where) {
+		$this->db->order_by('song_id','asc');
 		$this->db->where($where);
 		$query = $this->db->get($this->table_name);
 		$result = $query->result_array();
@@ -23,14 +23,14 @@ class News_model extends CI_Model
 	}
 
 	/**
-    * This function is used to add new news
-    * @param array $news: this is array data to be added
+    * This function is used to add new song
+    * @param array $song: this is array data to be added
     * @return number $insert_id: return id of row into table
     */
 
-	public function addNewNews($news) {
+	public function addNewSong($song) {
 		$this->db->trans_start();
-        $this->db->insert($this->table_name, $news);
+        $this->db->insert($this->table_name, $song);
         
         $insert_id = $this->db->insert_id();
         
@@ -40,19 +40,19 @@ class News_model extends CI_Model
 	} 
 
 	/**
-    * This function is used to update the news information
-    * @param array $news : This is news updated information
+    * This function is used to update the song information
+    * @param array $song : This is song updated information
     * @param array $where : This is where clause
     */
 
-	public function updateNews($news, $where) {
+	public function updateSong($song, $where) {
 		$this->db->where($where);
-        $this->db->update($this->table_name, $news);
+        $this->db->update($this->table_name, $song);
         return TRUE;
 	}
 
-	public function getNewsById($id) {
-		$this->db->where('news_id', $id);
+	public function getSongById($id) {
+		$this->db->where('song_id', $id);
 		$this->db->limit(1);
 		$query = $this->db->get($this->table_name);
 		$result = $query->result_array();

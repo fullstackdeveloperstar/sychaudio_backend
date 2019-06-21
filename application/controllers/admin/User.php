@@ -79,6 +79,7 @@ class User extends REST_Controller
             $user_data['user_name'] = $this->postData['user_name'];
             $user_data['is_verified'] = $this->postData['is_verified'];
             $user_data['user_role'] = $this->postData['user_role'];
+            $user_data['user_avatar'] = $this->postData['user_avatar'];
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
             $user_data['created_datetime'] =  mdate($datestring, $time);
