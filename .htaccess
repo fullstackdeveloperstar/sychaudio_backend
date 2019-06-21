@@ -3,3 +3,7 @@ RewriteCond $1 !^(index\.php|resources|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L,QSA] 
+
+<FilesMatch ".(mp3|wav)">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>

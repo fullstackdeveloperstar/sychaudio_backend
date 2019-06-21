@@ -30,6 +30,7 @@ class Song extends REST_Controller
         } else {
             $song_data['song_title'] = $this->postData['song_title'];
             $song_data['song_thumb'] = $this->postData['song_thumb'];
+            $song_data['song_music'] = $this->postData['song_music'];
             $song_data['song_artist'] = $this->postData['song_artist'];
             $song_data['song_performedby'] = $this->postData['song_performedby'];
             $song_data['song_mood'] = $this->postData['song_mood'];
@@ -53,6 +54,12 @@ class Song extends REST_Controller
         }
     }
 
+    public function song_get($song_id) {
+        $song_item = $this->song_model->getSongById($song_id);
+    
+        $this->set_response($song_item, REST_Controller::HTTP_OK);
+    }
+
     public function songthumb_post() {
         $config['upload_path']          = './uploads/song/thumb/';
         $config['allowed_types']        = 'jpg|png';
@@ -73,6 +80,30 @@ class Song extends REST_Controller
             $data = $this->upload->data();
 
             $return_data['url'] = base_url() . 'uploads/song/thumb/' . $data['file_name'];
+
+            $this->set_response($return_data, REST_Controller::HTTP_OK);
+        }
+    }
+
+
+    public function songmusic_post() {
+        $config['upload_path']          = './uploads/song/music/';
+        $config['allowed_types']        = 'mp3|wav';
+        $config['max_size']             = 100000;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('song_music'))
+        {
+            $error = array('error' => $this->upload->display_errors());
+
+            $this->set_response($error, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        else
+        {
+            $data = $this->upload->data();
+
+            $return_data['url'] = base_url() . 'uploads/song/music/' . $data['file_name'];
 
             $this->set_response($return_data, REST_Controller::HTTP_OK);
         }
