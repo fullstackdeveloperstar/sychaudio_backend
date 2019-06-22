@@ -95,12 +95,31 @@ class Song extends REST_Controller
         $this->set_response($song_item, REST_Controller::HTTP_OK);
     }
 
+    public function song_delete($song_id) {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $where = array(
+                'song_id' => $song_id
+            );
+
+            $song_data['is_deleted'] = '1';
+            $datestring = '%Y-%m-%d %h:%i:%s';
+            $time = time();
+            $song_data['deleted_datetime'] =  mdate($datestring, $time);
+
+            $this->song_model->updateSong($song_data, $where);
+
+            $this->set_response($song_data, REST_Controller::HTTP_OK);
+        }
+    }
+
     public function songthumb_post() {
         $config['upload_path']          = './uploads/song/thumb/';
         $config['allowed_types']        = 'jpg|png';
-        $config['max_size']             = 100;
-        $config['max_width']            = 1024;
-        $config['max_height']           = 1024;
+        $config['max_size']             = 10000;
+        $config['max_width']            = 10240;
+        $config['max_height']           = 10240;
 
         $this->load->library('upload', $config);
 
