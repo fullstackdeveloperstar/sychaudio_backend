@@ -14,6 +14,7 @@ class Playlist extends REST_Controller
         parent::__construct();
         
         $this->load->model('playlist_model');
+        $this->load->model('song_model');
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
     }
@@ -29,8 +30,15 @@ class Playlist extends REST_Controller
 
     public function playlistitem_get($playlist_id)
     {
+
         $playlistItem = $this->playlist_model->getPlaylistById($playlist_id);
-    
+        $songsWhere = array(
+            'song_playlist' => $playlist_id,
+            'is_deleted' => '0'
+        );
+        $songs = $this->song_model->getSongsByWhere($songsWhere);
+        $playlistItem['songs'] = $songs;
+
         $this->set_response($playlistItem, REST_Controller::HTTP_OK);
     }
 

@@ -14,6 +14,7 @@ class Artist extends REST_Controller
         parent::__construct();
         
         $this->load->model('artist_model');
+        $this->load->model('song_model');
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
     }
@@ -38,6 +39,13 @@ class Artist extends REST_Controller
         
         $artist['artist_key_writers'] = json_decode($artist['artist_key_writers']);
         $artist['artist_members'] = json_decode($artist['artist_members']);
+
+        $songsWhere = array(
+            'song_artist' => $artist_id,
+            'is_deleted' => '0'
+        );
+        $songs = $this->song_model->getSongsByWhere($songsWhere);
+        $artist['songs'] = $songs;
     
         $this->set_response($artist, REST_Controller::HTTP_OK);
     }
