@@ -39,6 +39,7 @@ class Song extends REST_Controller
             $song_data['song_instrument'] = $this->postData['song_instrument'];
             $song_data['song_playlist'] = $this->postData['song_playlist'];
             $song_data['song_vocals_inst'] = $this->postData['song_vocals_inst'];
+            $song_data['song_key'] = $this->postData['song_key'];
             $song_data['song_duration'] = $this->postData['song_duration'];
             $song_data['song_bpm'] = $this->postData['song_bpm'];
             $datestring = '%Y-%m-%d %h:%i:%s';
@@ -51,6 +52,40 @@ class Song extends REST_Controller
             } else {
                 $this->set_response($song_data, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);    
             }
+        }
+    }
+
+
+    public function song_patch($song_id) {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $where = array(
+                'song_id' => $song_id
+            );
+
+            $song_data['song_title'] = $this->postData['song_title'];
+            $song_data['song_thumb'] = $this->postData['song_thumb'];
+            $song_data['song_music'] = $this->postData['song_music'];
+            $song_data['song_artist'] = $this->postData['song_artist'];
+            $song_data['song_performedby'] = $this->postData['song_performedby'];
+            $song_data['song_mood'] = $this->postData['song_mood'];
+            $song_data['song_genre'] = $this->postData['song_genre'];
+            $song_data['song_pace'] = $this->postData['song_pace'];
+            $song_data['song_instrument'] = $this->postData['song_instrument'];
+            $song_data['song_playlist'] = $this->postData['song_playlist'];
+            $song_data['song_vocals_inst'] = $this->postData['song_vocals_inst'];
+            $song_data['song_key'] = $this->postData['song_key'];
+            $song_data['song_duration'] = $this->postData['song_duration'];
+            $song_data['song_bpm'] = $this->postData['song_bpm'];
+
+            $datestring = '%Y-%m-%d %h:%i:%s';
+            $time = time();
+            $song_data['updated_datetime'] =  mdate($datestring, $time);
+
+            $this->song_model->updateSong($song_data, $where);
+
+            $this->set_response($song_data, REST_Controller::HTTP_OK);
         }
     }
 
