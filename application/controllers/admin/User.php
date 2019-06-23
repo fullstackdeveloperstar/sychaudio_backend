@@ -115,9 +115,9 @@ class User extends REST_Controller
     public function useravatar_post() {
         $config['upload_path']          = './uploads/user/avatar/';
         $config['allowed_types']        = 'jpg|png';
-        $config['max_size']             = 100;
-        $config['max_width']            = 1024;
-        $config['max_height']           = 1024;
+        $config['max_size']             = 10000;
+        $config['max_width']            = 10240;
+        $config['max_height']           = 10240;
 
         $this->load->library('upload', $config);
 
