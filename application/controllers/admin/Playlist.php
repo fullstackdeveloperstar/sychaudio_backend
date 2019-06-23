@@ -21,7 +21,9 @@ class Playlist extends REST_Controller
 
     public function playlist_get()
     {   
-        $where = array();
+        $where = array(
+            'is_deleted' => '0'
+        );
         $playlist = $this->playlist_model->getPlaylistsByWhere($where);
         
         $this->set_response($playlist, REST_Controller::HTTP_OK);

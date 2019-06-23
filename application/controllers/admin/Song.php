@@ -19,7 +19,9 @@ class Song extends REST_Controller
     }
 
     public function getallsongs_get() {
-        $where = array();
+        $where = array(
+            'is_deleted' => '0'
+        );
         $songs = $this->song_model->getSongsByWhere($where);
         $this->set_response($songs, REST_Controller::HTTP_OK);
     }

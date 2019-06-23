@@ -21,7 +21,9 @@ class Artist extends REST_Controller
 
     public function artists_get()
     {
-        $where = array();
+        $where = array(
+            'is_deleted' => '0'
+        );
         $artists = $this->artist_model->getArtistsByWhere($where);
         $return_data = array();
         foreach($artists as $artist) {
