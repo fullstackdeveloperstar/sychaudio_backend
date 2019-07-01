@@ -121,4 +121,29 @@ class News extends REST_Controller
             $this->set_response($return_data, REST_Controller::HTTP_OK);
         }
     }
+
+    public function changefeatured_post($news_id) {
+        $news = $this->news_model->getNewsById($news_id);
+        $this->set_response($news, REST_Controller::HTTP_OK);
+        if($news) {
+            $data = array(
+                'is_featured' => 0
+            );
+
+            if($news['is_featured'] == 0) {
+                $data['is_featured'] = 1;
+            } else {
+                $data['is_featured'] = 0;
+            }
+
+            $where = array(
+                'news_id' => $news_id
+            );
+
+            $this->news_model->updateNews($data, $where);
+            $this->set_response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->set_response(array('error'=> 'not exist'), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

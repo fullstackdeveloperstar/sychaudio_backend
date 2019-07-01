@@ -151,4 +151,30 @@ class Artist extends REST_Controller
             $this->set_response($return_data, REST_Controller::HTTP_OK);
         }
     }
+
+    public function changefeatured_post($artist_id) {
+        $artist = $this->artist_model->getArtistById($artist_id);
+        $this->set_response($artist, REST_Controller::HTTP_OK);
+        if($artist) {
+            $data = array(
+                'is_featured' => 0
+            );
+
+            if($artist['is_featured'] == 0) {
+                $data['is_featured'] = 1;
+            } else {
+                $data['is_featured'] = 0;
+            }
+
+            $where = array(
+                'artist_id' => $artist_id
+            );
+
+            $this->artist_model->updateArtist($data, $where);
+            $this->set_response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->set_response(array('error'=> 'not exist'), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+    }
 }
