@@ -63,4 +63,12 @@ class Song_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getRecentlyAddedSongs() {
+		$this->db->order_by('created_datetime','DESC');
+		$this->db->limit(20);
+		$query = $this->db->get($this->table_name);
+		$result = $query->result_array();
+		return $result;
+	}
 }
