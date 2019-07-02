@@ -44,6 +44,7 @@ class Song extends REST_Controller
             $song_data['song_key'] = $this->postData['song_key'];
             $song_data['song_duration'] = $this->postData['song_duration'];
             $song_data['song_bpm'] = $this->postData['song_bpm'];
+            $song_data['song_key_writers'] = json_encode($this->postData['song_key_writers']);
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
             $song_data['created_datetime'] =  mdate($datestring, $time);
@@ -80,6 +81,7 @@ class Song extends REST_Controller
             $song_data['song_key'] = $this->postData['song_key'];
             $song_data['song_duration'] = $this->postData['song_duration'];
             $song_data['song_bpm'] = $this->postData['song_bpm'];
+            $song_data['song_key_writers'] = json_encode($this->postData['song_key_writers']);
 
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
@@ -93,7 +95,7 @@ class Song extends REST_Controller
 
     public function song_get($song_id) {
         $song_item = $this->song_model->getSongById($song_id);
-    
+        $song_item['song_key_writers'] = json_decode($song_item['song_key_writers']);
         $this->set_response($song_item, REST_Controller::HTTP_OK);
     }
 
