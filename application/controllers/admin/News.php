@@ -20,11 +20,25 @@ class News extends REST_Controller
 
     public function news_get()
     {   
-        $where = array();
+        $where = array(
+            'is_deleted' => '0'
+        );
+
         $news = $this->news_model->getNewsByWhere($where);
         
         $this->set_response($news, REST_Controller::HTTP_OK);
     
+    }
+
+    public function newspublished_get() {
+        $where = array(
+            'is_deleted' => '0',
+            'news_status' => '0'
+        );
+
+        $news = $this->news_model->getNewsByWhere($where);
+        
+        $this->set_response($news, REST_Controller::HTTP_OK);
     }
 
     public function newsitem_get($news_id)
