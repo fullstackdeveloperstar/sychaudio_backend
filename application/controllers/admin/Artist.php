@@ -170,6 +170,23 @@ class Artist extends REST_Controller
         } else {
             $this->set_response(array('error'=> 'not exist'), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
 
+    public function changeorder_patch() {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $orders = $this->postData;
+            // $orders = json_encode($orders);
+            // $artist_id = $this->artist_model->addNewArtist($artist);
+            foreach($orders as $order) {
+                $where['artist_id'] = $order['artist_id'];
+                
+                $data['artist_order'] = $order['artist_order'];
+
+                $this->artist_model->updateArtist($data, $where);
+            }
+            $this->set_response($orders, REST_Controller::HTTP_OK);
+        }
     }
 }

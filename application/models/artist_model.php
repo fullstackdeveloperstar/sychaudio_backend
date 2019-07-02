@@ -15,7 +15,7 @@ class Artist_model extends CI_Model
 	*/
 
 	public function getArtistsByWhere($where) {
-		$this->db->order_by('artist_id','asc');
+		$this->db->order_by('artist_order','asc');
 		$this->db->where($where);
 		$query = $this->db->get($this->table_name);
 		$result = $query->result_array();
