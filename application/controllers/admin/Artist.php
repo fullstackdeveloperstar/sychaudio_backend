@@ -27,7 +27,6 @@ class Artist extends REST_Controller
         $artists = $this->artist_model->getArtistsByWhere($where);
         $return_data = array();
         foreach($artists as $artist) {
-            // $artist['artist_key_writers'] = json_decode($artist['artist_key_writers']);
             $artist['artist_members'] = json_decode($artist['artist_members']);
             $return_data[] = $artist;
         }
@@ -38,8 +37,7 @@ class Artist extends REST_Controller
     {
         $artist = $this->artist_model->getArtistById($artist_id);
         $return_data = array();
-        
-        // $artist['artist_key_writers'] = json_decode($artist['artist_key_writers']);
+
         $artist['artist_members'] = json_decode($artist['artist_members']);
 
         $songsWhere = array(
@@ -58,7 +56,6 @@ class Artist extends REST_Controller
             $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
         } else {
             $artist = $this->postData;
-            // $artist['artist_key_writers'] = json_encode($artist['artist_key_writers']);
             $artist['artist_members'] = json_encode($artist['artist_members']);
             $artist_id = $this->artist_model->addNewArtist($artist);
             $this->set_response($artist, REST_Controller::HTTP_OK);
@@ -78,8 +75,6 @@ class Artist extends REST_Controller
             $artist_data['artist_bio'] = $this->postData['artist_bio'];
             $artist_data['artist_contact'] = $this->postData['artist_contact'];
             $artist_data['artist_from'] = $this->postData['artist_from'];
-            $artist_data['artist_born'] = $this->postData['artist_born'];
-            $artist_data['artist_nationality'] = $this->postData['artist_nationality'];
             $artist_data['artist_website_url'] = $this->postData['artist_website_url'];
             
             $artist_data['artist_twitter'] = $this->postData['artist_twitter'];
@@ -94,9 +89,9 @@ class Artist extends REST_Controller
             $artist_data['artist_spotify'] = $this->postData['artist_spotify'];
             $artist_data['artist_otherurl1'] = $this->postData['artist_otherurl1'];
             $artist_data['artist_otherurl2'] = $this->postData['artist_otherurl2'];
-
+            $artist_data['artist_vocal'] = $this->postData['artist_vocal'];
+            $artist_data['artist_genre'] = $this->postData['artist_genre'];
             $artist_data['artist_status'] = $this->postData['artist_status'];
-            // $artist_data['artist_key_writers'] = json_encode($this->postData['artist_key_writers']);
             $artist_data['artist_members'] = json_encode($this->postData['artist_members']);
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
