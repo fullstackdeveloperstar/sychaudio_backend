@@ -45,6 +45,14 @@ class Song extends REST_Controller
             $song_data['song_duration'] = $this->postData['song_duration'];
             $song_data['song_bpm'] = $this->postData['song_bpm'];
             $song_data['song_key_writers'] = json_encode($this->postData['song_key_writers']);
+            $song_data['song_album_name'] =  $this->postData['song_album_name'];
+            $song_data['song_release'] =  $this->postData['song_release'];
+            $song_data['song_original_cover'] =  $this->postData['song_original_cover'];
+            $song_data['song_explicit'] =  $this->postData['song_explicit'];
+            $song_data['song_language'] =  $this->postData['song_language'];
+            $song_data['song_comments_notes'] =  $this->postData['song_comments_notes'];
+            $song_data['song_status'] =  $this->postData['song_status'];
+            
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
             $song_data['created_datetime'] =  mdate($datestring, $time);
@@ -82,6 +90,13 @@ class Song extends REST_Controller
             $song_data['song_duration'] = $this->postData['song_duration'];
             $song_data['song_bpm'] = $this->postData['song_bpm'];
             $song_data['song_key_writers'] = json_encode($this->postData['song_key_writers']);
+            $song_data['song_album_name'] =  $this->postData['song_album_name'];
+            $song_data['song_release'] =  $this->postData['song_release'];
+            $song_data['song_original_cover'] =  $this->postData['song_original_cover'];
+            $song_data['song_explicit'] =  $this->postData['song_explicit'];
+            $song_data['song_language'] =  $this->postData['song_language'];
+            $song_data['song_comments_notes'] =  $this->postData['song_comments_notes'];
+            $song_data['song_status'] =  $this->postData['song_status'];
 
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
