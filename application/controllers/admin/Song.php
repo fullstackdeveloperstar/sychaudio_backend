@@ -33,6 +33,8 @@ class Song extends REST_Controller
             $song_data['song_title'] = $this->postData['song_title'];
             $song_data['song_thumb'] = $this->postData['song_thumb'];
             $song_data['song_music'] = $this->postData['song_music'];
+            $song_data['song_music_wav'] = $this->postData['song_music_wav'];
+            $song_data['song_music_inst'] = $this->postData['song_music_inst'];
             $song_data['song_artist'] = $this->postData['song_artist'];
             $song_data['song_performedby'] = $this->postData['song_performedby'];
             $song_data['song_mood'] = $this->postData['song_mood'];
@@ -78,6 +80,8 @@ class Song extends REST_Controller
             $song_data['song_title'] = $this->postData['song_title'];
             $song_data['song_thumb'] = $this->postData['song_thumb'];
             $song_data['song_music'] = $this->postData['song_music'];
+            $song_data['song_music_wav'] = $this->postData['song_music_wav'];
+            $song_data['song_music_inst'] = $this->postData['song_music_inst'];
             $song_data['song_artist'] = $this->postData['song_artist'];
             $song_data['song_performedby'] = $this->postData['song_performedby'];
             $song_data['song_mood'] = $this->postData['song_mood'];
