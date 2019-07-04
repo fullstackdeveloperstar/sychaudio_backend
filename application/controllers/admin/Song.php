@@ -14,6 +14,7 @@ class Song extends REST_Controller
         parent::__construct();
         
         $this->load->model('song_model');
+        $this->load->model('license_request_model');
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
     }
@@ -211,5 +212,10 @@ class Song extends REST_Controller
         } else {
             $this->set_response(array('error'=> 'not exist'), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function license_post() {
+        $this->license_request_model->addLicenseRequest($this->postData);
+        $this->set_response($this->postData, REST_Controller::HTTP_OK);
     }
 }
