@@ -16,6 +16,7 @@ class Featured extends REST_Controller
         $this->load->model('artist_model');
         $this->load->model('news_model');
         $this->load->model('song_model');
+        $this->load->model('video_model');
         
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
@@ -33,6 +34,8 @@ class Featured extends REST_Controller
         $data['featured_artists'] = $this->artist_model->getArtistsByWhere($whereFeatured);
 
         $data['featured_news'] = $this->news_model->getNewsByWhere($whereFeatured);
+
+        $data['featured_videos'] = $this->video_model->getByWhere($whereFeatured);
 
         $this->set_response($data, REST_Controller::HTTP_OK);
     

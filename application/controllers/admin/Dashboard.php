@@ -14,6 +14,7 @@ class Dashboard extends REST_Controller
         parent::__construct();
         
         $this->load->model('homeslider_model');
+        $this->load->model('video_model');
         
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
@@ -124,5 +125,84 @@ class Dashboard extends REST_Controller
         }
 
         $this->set_response($return_data, REST_Controller::HTTP_OK);
+    }
+
+    public function admin_videos_get()
+    {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+        
+          $where['is_deleted'] = 0;
+          $videos = $this->video_model->getByWhere($where);
+          $this->set_response($videos, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function admin_video_post() {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+        
+            $id = $this->video_model->add($this->postData);
+            if($id) {
+                $this->set_response($this->postData, REST_Controller::HTTP_OK);
+            } else {
+                $this->set_response($this->postData, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);    
+            }
+            
+        }
+    }
+
+    public function admin_video_patch($video_id) {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $where['video_id'] = $video_id;
+            $id = $this->video_model->update($this->postData, $where);
+            if($id) {
+                $this->set_response($this->postData, REST_Controller::HTTP_OK);
+            } else {
+                $this->set_response($this->postData, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);    
+            }
+            
+        }
+    }
+
+    public function admin_video_delete($video_id)
+    {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+          $where['video_id'] = $video_id;
+          $data['is_deleted'] = 1;
+          $this->video_model->update($data, $where);
+          $this->set_response($data, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function changevideofeatured_post($video_id) {
+        $video = $this->video_model->getById($video_id);
+        
+        if($video) {
+            $data = array(
+                'is_featured' => 0
+            );
+
+            if($video['is_featured'] == 0) {
+                $data['is_featured'] = 1;
+            } else {
+                $data['is_featured'] = 0;
+            }
+
+            $where = array(
+                'video_id' => $video_id
+            );
+
+            $this->video_model->update($data, $where);
+            $this->set_response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->set_response(array('error'=> 'not exist'), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
