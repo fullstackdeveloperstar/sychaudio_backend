@@ -24,7 +24,12 @@ class Song extends REST_Controller
             'is_deleted' => '0'
         );
         $songs = $this->song_model->getSongsByWhere($where);
-        $this->set_response($songs, REST_Controller::HTTP_OK);
+        $return_data = [];
+        foreach($songs as $song) {
+            $song['song_key_writers'] =  json_decode($song['song_key_writers']);
+            $return_data[] = $song;
+        }
+        $this->set_response($return_data, REST_Controller::HTTP_OK);
     }
 
     public function song_post() {
