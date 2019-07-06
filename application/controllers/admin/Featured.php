@@ -29,7 +29,12 @@ class Featured extends REST_Controller
             'is_deleted' => 0
         );
         
-        $data['recently_added_songs'] = $this->song_model->getRecentlyAddedSongs();
+        $data['recently_added_songs'] = [];
+        $recently_added_songs = $this->song_model->getRecentlyAddedSongs();
+        foreach($recently_added_songs as $song) {
+            $song['song_artist'] = $this->artist_model->getArtistById($song['song_artist']);
+            $data['recently_added_songs'][] = $song;
+        }
 
         $data['featured_artists'] = $this->artist_model->getArtistsByWhere($whereFeatured);
 
