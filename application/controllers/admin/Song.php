@@ -14,6 +14,7 @@ class Song extends REST_Controller
         parent::__construct();
         
         $this->load->model('song_model');
+        $this->load->model('artist_model');
         $this->load->model('license_request_model');
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
@@ -27,6 +28,7 @@ class Song extends REST_Controller
         $return_data = [];
         foreach($songs as $song) {
             $song['song_key_writers'] =  json_decode($song['song_key_writers']);
+            $song['song_artist'] = $this->artist_model->getArtistById($song['song_artist']);
             $return_data[] = $song;
         }
         $this->set_response($return_data, REST_Controller::HTTP_OK);
