@@ -14,6 +14,7 @@ class Placement extends REST_Controller
         parent::__construct();
         
         $this->load->model('placement_model');
+        $this->load->model('artist_model');
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
     }
@@ -24,9 +25,15 @@ class Placement extends REST_Controller
             'is_deleted' => '0'
         );
 
-        $news = $this->placement_model->getByWhere($where);
+        $placements = $this->placement_model->getByWhere($where);
+        $return_data = [];
+        foreach($placements as $placement) {
+
+            $placement['artist'] = $this->artist_model->getArtistById($placement['placement_artist']);
+            $return_data[] = $placement;
+        }
         
-        $this->set_response($news, REST_Controller::HTTP_OK);
+        $this->set_response($return_data, REST_Controller::HTTP_OK);
     }
 
     public function placement_post() {

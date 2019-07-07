@@ -152,18 +152,14 @@ class Artist extends REST_Controller
         $this->set_response($artist, REST_Controller::HTTP_OK);
         if($artist) {
             $data = array(
-                'is_featured' => 0
+                'is_featured' => 1
             );
-
-            if($artist['is_featured'] == 0) {
-                $data['is_featured'] = 1;
-            } else {
-                $data['is_featured'] = 0;
-            }
 
             $where = array(
                 'artist_id' => $artist_id
             );
+
+            $this->artist_model->updateArtist(array('is_featured' => 0), array('is_featured' => 1));
 
             $this->artist_model->updateArtist($data, $where);
             $this->set_response($data, REST_Controller::HTTP_OK);

@@ -66,7 +66,7 @@ class Song_model extends CI_Model
 
 	public function getRecentlyAddedSongs() {
 		$this->db->order_by('created_datetime','DESC');
-		$this->db->limit(20);
+		$this->db->limit(7);
 		$query = $this->db->get($this->table_name);
 		$result = $query->result_array();
 		return $result;

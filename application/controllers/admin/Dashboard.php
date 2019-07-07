@@ -186,19 +186,13 @@ class Dashboard extends REST_Controller
         
         if($video) {
             $data = array(
-                'is_featured' => 0
+                'is_featured' => 1
             );
-
-            if($video['is_featured'] == 0) {
-                $data['is_featured'] = 1;
-            } else {
-                $data['is_featured'] = 0;
-            }
 
             $where = array(
                 'video_id' => $video_id
             );
-
+            $this->video_model->update(array('is_featured' => 0), array('is_featured' => 1));
             $this->video_model->update($data, $where);
             $this->set_response($data, REST_Controller::HTTP_OK);
         } else {

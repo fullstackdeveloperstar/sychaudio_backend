@@ -201,19 +201,13 @@ class Song extends REST_Controller
         $this->set_response($song, REST_Controller::HTTP_OK);
         if($song) {
             $data = array(
-                'is_featured' => 0
+                'is_featured' => 1
             );
-
-            if($song['is_featured'] == 0) {
-                $data['is_featured'] = 1;
-            } else {
-                $data['is_featured'] = 0;
-            }
 
             $where = array(
                 'song_id' => $song_id
             );
-
+            $this->song_model->updateSong(array('is_featured' => 0), array('is_featured' => 1));
             $this->song_model->updateSong($data, $where);
             $this->set_response($data, REST_Controller::HTTP_OK);
         } else {
