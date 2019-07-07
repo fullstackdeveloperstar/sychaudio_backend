@@ -15,6 +15,7 @@ class Dashboard extends REST_Controller
         
         $this->load->model('homeslider_model');
         $this->load->model('video_model');
+        $this->load->model('musicreview_model');
         
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
@@ -197,6 +198,23 @@ class Dashboard extends REST_Controller
             $this->set_response($data, REST_Controller::HTTP_OK);
         } else {
             $this->set_response(array('error'=> 'not exist'), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function musicreview_get() {
+        $about = $this->musicreview_model->get();
+        $this->set_response($about, REST_Controller::HTTP_OK);
+    }
+
+    public function musicreview_post()
+    {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $about = $this->postData;
+           
+            $this->musicreview_model->save($about);
+            $this->set_response($about, REST_Controller::HTTP_OK);
         }
     }
 }
