@@ -131,4 +131,25 @@ class Playlist extends REST_Controller
             $this->set_response($return_data, REST_Controller::HTTP_OK);
         }
     }
+
+    public function changefeatured_post($playlist_id) {
+        $playlist = $this->playlist_model->getPlaylistById($playlist_id);
+        $this->set_response($playlist, REST_Controller::HTTP_OK);
+        if($playlist) {
+            $data = array(
+                'is_featured' => 1
+            );
+
+            $where = array(
+                'playlist_id' => $playlist_id
+            );
+
+            $this->playlist_model->updatePlaylist(array('is_featured' => 0), array('is_featured' => 1));
+
+            $this->playlist_model->updatePlaylist($data, $where);
+            $this->set_response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->set_response(array('error'=> 'not exist'), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

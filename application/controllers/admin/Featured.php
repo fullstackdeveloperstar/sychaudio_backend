@@ -17,6 +17,7 @@ class Featured extends REST_Controller
         $this->load->model('news_model');
         $this->load->model('song_model');
         $this->load->model('video_model');
+        $this->load->model('playlist_model');
         
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
@@ -42,6 +43,14 @@ class Featured extends REST_Controller
 
         $data['featured_videos'] = $this->video_model->getByWhere($whereFeatured);
 
+        $data['featured_playlists'] = $this->playlist_model->getPlaylistsByWhere($whereFeatured);
+
+        $featured_songs = $this->song_model->getSongsByWhere($whereFeatured);
+        $data['featured_songs'] = [];
+        foreach($featured_songs as $song) {
+            $song['song_artist'] = $this->artist_model->getArtistById($song['song_artist']);
+            $data['featured_songs'][] = $song;
+        }
         $this->set_response($data, REST_Controller::HTTP_OK);
     
     }
