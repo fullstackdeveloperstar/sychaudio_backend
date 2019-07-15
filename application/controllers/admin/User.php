@@ -61,6 +61,20 @@ class User extends REST_Controller
             $user_data['is_verified'] = $this->postData['is_verified'];
             $user_data['user_role'] = $this->postData['user_role'];
             $user_data['user_avatar'] = $this->postData['user_avatar'];
+
+            $user_data['user_phone'] = $this->postData['user_phone'];
+            $user_data['user_company'] = $this->postData['user_company'];
+            $user_data['user_position'] = $this->postData['user_position'];
+            $user_data['user_country'] = $this->postData['user_country'];
+            $user_data['user_state'] = $this->postData['user_state'];
+            $user_data['user_city'] = $this->postData['user_city'];
+            $user_data['user_website_url'] = $this->postData['user_website_url'];
+            $user_data['user_twitter_url'] = $this->postData['user_twitter_url'];
+            $user_data['user_facebook_url'] = $this->postData['user_facebook_url'];
+            $user_data['user_linkedin_url'] = $this->postData['user_linkedin_url'];
+            $user_data['user_website_url'] = $this->postData['user_website_url'];
+            $user_data['user_referred_by'] = $this->postData['user_referred_by'];
+
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
             $user_data['updated_datetime'] =  mdate($datestring, $time);
@@ -80,6 +94,20 @@ class User extends REST_Controller
             $user_data['is_verified'] = $this->postData['is_verified'];
             $user_data['user_role'] = $this->postData['user_role'];
             $user_data['user_avatar'] = $this->postData['user_avatar'];
+
+            $user_data['user_phone'] = $this->postData['user_phone'];
+            $user_data['user_company'] = $this->postData['user_company'];
+            $user_data['user_position'] = $this->postData['user_position'];
+            $user_data['user_country'] = $this->postData['user_country'];
+            $user_data['user_state'] = $this->postData['user_state'];
+            $user_data['user_city'] = $this->postData['user_city'];
+            $user_data['user_website_url'] = $this->postData['user_website_url'];
+            $user_data['user_twitter_url'] = $this->postData['user_twitter_url'];
+            $user_data['user_facebook_url'] = $this->postData['user_facebook_url'];
+            $user_data['user_linkedin_url'] = $this->postData['user_linkedin_url'];
+            $user_data['user_website_url'] = $this->postData['user_website_url'];
+            $user_data['user_referred_by'] = $this->postData['user_referred_by'];
+
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
             $user_data['created_datetime'] =  mdate($datestring, $time);

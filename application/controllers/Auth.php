@@ -82,6 +82,19 @@ class Auth extends REST_Controller
                 $user['user_password'] = getHashedPassword( $this->postData['password']);
                 $user['user_token'] = AUTHORIZATION::generateToken($user);
 
+                $user['user_phone'] = $this->postData['user_phone'];
+                $user['user_company'] = $this->postData['user_company'];
+                $user['user_position'] = $this->postData['user_position'];
+                $user['user_country'] = $this->postData['user_country'];
+                $user['user_state'] = $this->postData['user_state'];
+                $user['user_city'] = $this->postData['user_city'];
+                $user['user_website_url'] = $this->postData['user_website_url'];
+                $user['user_twitter_url'] = $this->postData['user_twitter_url'];
+                $user['user_facebook_url'] = $this->postData['user_facebook_url'];
+                $user['user_linkedin_url'] = $this->postData['user_linkedin_url'];
+                $user['user_website_url'] = $this->postData['user_website_url'];
+                $user['user_referred_by'] = $this->postData['user_referred_by'];
+
                 $user_id = $this->user_model->addNewUser($user);
                 
                 if($user_id) {
