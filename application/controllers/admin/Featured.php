@@ -18,6 +18,7 @@ class Featured extends REST_Controller
         $this->load->model('song_model');
         $this->load->model('video_model');
         $this->load->model('playlist_model');
+        $this->load->model('musicreview_model');
         
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
@@ -44,6 +45,9 @@ class Featured extends REST_Controller
         $data['featured_videos'] = $this->video_model->getByWhere($whereFeatured);
 
         $data['featured_playlists'] = $this->playlist_model->getPlaylistsByWhere($whereFeatured);
+
+        $data['music_review'] = $this->musicreview_model->get();
+        
 
         $featured_songs = $this->song_model->getSongsByWhere($whereFeatured);
         $data['featured_songs'] = [];

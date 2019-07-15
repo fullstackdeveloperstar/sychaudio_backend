@@ -202,8 +202,8 @@ class Dashboard extends REST_Controller
     }
 
     public function musicreview_get() {
-        $about = $this->musicreview_model->get();
-        $this->set_response($about, REST_Controller::HTTP_OK);
+        $musicreview = $this->musicreview_model->get();
+        $this->set_response($musicreview, REST_Controller::HTTP_OK);
     }
 
     public function musicreview_post()

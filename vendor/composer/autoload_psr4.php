@@ -10,5 +10,11 @@ return array(
     'SendGrid\\Mail\\' => array($vendorDir . '/sendgrid/sendgrid/lib/mail'),
     'SendGrid\\Contacts\\' => array($vendorDir . '/sendgrid/sendgrid/lib/contacts'),
     'SendGrid\\' => array($vendorDir . '/sendgrid/php-http-client/lib', $vendorDir . '/sendgrid/sendgrid/lib'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
+    'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
+    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
+    'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
+    'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
+    'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
 );

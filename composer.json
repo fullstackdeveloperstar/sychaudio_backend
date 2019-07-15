@@ -9,6 +9,7 @@
     "require": {
 		"sendgrid/sendgrid": "~7",
 		"phpmailer/phpmailer": "^6.0",
-        "daniel-zahariev/php-aws-ses": "^0.9.1"
+        "daniel-zahariev/php-aws-ses": "^0.9.1",
+        "aws/aws-sdk-php": "^3.107"
 	}
 }

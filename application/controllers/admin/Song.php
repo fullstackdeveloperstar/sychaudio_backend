@@ -3,6 +3,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
+use Aws\S3\S3Client;
+use Aws\S3\Exception\S3Exception;
 
 class Song extends REST_Controller
 {
@@ -218,5 +220,42 @@ class Song extends REST_Controller
     public function license_post() {
         $this->license_request_model->addLicenseRequest($this->postData);
         $this->set_response($this->postData, REST_Controller::HTTP_OK);
+    }
+
+    public function download_get($id) {
+        // $s3 = new AmazonS3('AKIA3HSX63WV3I3B2ND7', 'y5bq/wcSaiHe2t1h9+yIroLtx/z0bKRP/SPdE4TR');
+        // $objInfo = $s3->get_object_headers('music-sync', '0Mrk5utC-good-trouble-picture.jpg');
+        // $obj = $s3->get_object('music-sync', '0Mrk5utC-good-trouble-picture.jpg');
+
+        // header('Content-type: ' . $objInfo->header['_info']['content_type']);
+        // echo $obj->body;
+
+
+        $bucket = 'music-sync';
+        $keyname = $id;
+
+        $s3 = new S3Client([
+            'version' => 'latest',
+            'region'  => 'us-east-2',
+            'credentials' => [
+                'key'    => "AKIA3HSX63WV3I3B2ND7",
+                'secret' => "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",
+            ]
+        ]);
+
+        try {
+            // Get the object.
+            $result = $s3->getObject([
+                'Bucket' => $bucket,
+                'Key'    => $keyname
+            ]);
+
+            // Display the object in the browser.
+            header("Content-Type: application/octet-stream");
+            header("Content-Disposition: attachment; filename=".$keyname);
+            echo $result['Body'];
+        } catch (S3Exception $e) {
+            echo $e->getMessage() . PHP_EOL;
+        }
     }
 }

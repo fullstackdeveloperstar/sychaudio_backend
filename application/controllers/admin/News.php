@@ -37,6 +37,7 @@ class News extends REST_Controller
         );
 
         $news = $this->news_model->getNewsByWhere($where);
+        // var_dump($news);
         
         $this->set_response($news, REST_Controller::HTTP_OK);
     }
