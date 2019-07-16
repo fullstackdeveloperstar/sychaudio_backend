@@ -42,7 +42,9 @@ class User extends REST_Controller
         if(!AUTHORIZATION::checkAdminAuth()) {
             $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
         } else {
-            $where = array();
+            $where = array(
+                'is_deleted' => '0'
+            );
             $users = $this->user_model->getUsersByWhere($where);
             $this->set_response($users, REST_Controller::HTTP_OK);
         }
