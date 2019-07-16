@@ -65,6 +65,9 @@ class Song extends REST_Controller
             $song_data['song_comments_notes'] =  $this->postData['song_comments_notes'];
             $song_data['song_status'] =  $this->postData['song_status'];
             $song_data['song_music_lyrics'] =  $this->postData['song_music_lyrics'];
+            $song_data['song_riyl'] =  $this->postData['song_riyl'];
+            $song_data['song_covers'] =  $this->postData['song_covers'];
+            
             
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
@@ -113,6 +116,9 @@ class Song extends REST_Controller
             $song_data['song_comments_notes'] =  $this->postData['song_comments_notes'];
             $song_data['song_status'] =  $this->postData['song_status'];
             $song_data['song_music_lyrics'] =  $this->postData['song_music_lyrics'];
+            $song_data['song_riyl'] =  $this->postData['song_riyl'];
+            $song_data['song_covers'] =  $this->postData['song_covers'];
+            
 
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
