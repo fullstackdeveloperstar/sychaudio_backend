@@ -28,8 +28,16 @@ class Placement extends REST_Controller
         $placements = $this->placement_model->getByWhere($where);
         $return_data = [];
         foreach($placements as $placement) {
+            $artists = array();
 
-            $placement['artist'] = $this->artist_model->getArtistById($placement['placement_artist']);
+            if($placement['placement_artists']) {
+                $artists_ids = explode(',', $placement['placement_artists']);    
+                foreach($artists_ids as $artist_id) {
+                    $artists[] = $this->artist_model->getArtistById($artist_id);
+                }
+            }
+
+            $placement['artists'] = $artists;
             $return_data[] = $placement;
         }
         
@@ -40,7 +48,7 @@ class Placement extends REST_Controller
         if(!AUTHORIZATION::checkAdminAuth()) {
             $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
         } else {
-            $placement_data['placement_artist'] = $this->postData['placement_artist'];
+            $placement_data['placement_artists'] = $this->postData['placement_artists'];
             $placement_data['placement_title'] = $this->postData['placement_title'];
             $placement_data['placement_poster'] = $this->postData['placement_poster'];
             $placement_data['placement_youtube'] = $this->postData['placement_youtube'];
@@ -67,7 +75,7 @@ class Placement extends REST_Controller
                 'placement_id' => $placement_id
             );
 
-            $placement_data['placement_artist'] = $this->postData['placement_artist'];
+            $placement_data['placement_artists'] = $this->postData['placement_artists'];
             $placement_data['placement_title'] = $this->postData['placement_title'];
             $placement_data['placement_poster'] = $this->postData['placement_poster'];
             $placement_data['placement_youtube'] = $this->postData['placement_youtube'];

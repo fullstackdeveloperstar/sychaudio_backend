@@ -44,8 +44,16 @@ class Artist extends REST_Controller
             'song_artist' => $artist_id,
             'is_deleted' => '0'
         );
+
         $songs = $this->song_model->getSongsByWhere($songsWhere);
-        $artist['songs'] = $songs;
+        $return_data = array();
+        foreach($songs as $song) {
+            $song['song_key_writers'] =  json_decode($song['song_key_writers']);
+            $song['song_artist'] = $this->artist_model->getArtistById($song['song_artist']);
+            $return_data[] = $song;
+        }
+
+        $artist['songs'] = $return_data;
     
         $this->set_response($artist, REST_Controller::HTTP_OK);
     }

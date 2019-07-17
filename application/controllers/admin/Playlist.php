@@ -15,6 +15,7 @@ class Playlist extends REST_Controller
         
         $this->load->model('playlist_model');
         $this->load->model('song_model');
+        $this->load->model('artist_model');
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
     }
@@ -35,11 +36,28 @@ class Playlist extends REST_Controller
 
         $playlistItem = $this->playlist_model->getPlaylistById($playlist_id);
         $songsWhere = array(
-            'song_playlist' => $playlist_id,
+            // 'song_playlist' => $playlist_id,
             'is_deleted' => '0'
         );
-        $songs = $this->song_model->getSongsByWhere($songsWhere);
-        $playlistItem['songs'] = $songs;
+        $tempsongs = $this->song_model->getSongsByWhere($songsWhere);
+        $songs = array();
+        foreach($tempsongs as $tempsong) {
+            if($tempsong['song_playlist']) {
+                $playlists = explode(',', $tempsong['song_playlist']);
+                if (in_array($playlist_id, $playlists)){
+                    $songs[] = $tempsong;
+                }
+            }
+        }
+
+        $return_data = array();
+        foreach($songs as $song) {
+            $song['song_key_writers'] =  json_decode($song['song_key_writers']);
+            $song['song_artist'] = $this->artist_model->getArtistById($song['song_artist']);
+            $return_data[] = $song;
+        }
+
+        $playlistItem['songs'] = $return_data;
 
         $this->set_response($playlistItem, REST_Controller::HTTP_OK);
     }
@@ -59,6 +77,40 @@ class Playlist extends REST_Controller
             $playlist_id = $this->playlist_model->addNewPlaylist($playlist_data);
             if($playlist_id) {
                 $this->set_response($playlist_data, REST_Controller::HTTP_OK);    
+            } else {
+                $this->set_response($playlist_data, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);    
+            }
+        }
+    }
+
+    public function playlistwithitem_post() {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $playlist_data['playlist_title'] = $this->postData['playlist_title'];
+            $playlist_data['playlist_thumb'] = $this->postData['playlist_thumb'];
+            $playlist_data['playlist_note'] = $this->postData['playlist_note'];
+            $playlist_data['playlist_status'] = $this->postData['playlist_status'];
+            $datestring = '%Y-%m-%d %h:%i:%s';
+            $time = time();
+            $playlist_data['created_datetime'] =  mdate($datestring, $time);
+
+            $playlist_id = $this->playlist_model->addNewPlaylist($playlist_data);
+            if($playlist_id) {
+                foreach($this->postData['songs'] as $song) {
+                    $where = array(
+                        'song_id' => $song['song_id']
+                    );
+                    if($song['song_playlist']) {
+                        $data['song_playlist'] = $song['song_playlist'].','.$playlist_id;
+                    } else {
+                        $data['song_playlist'] = $playlist_id;
+                    }
+
+                    $this->song_model->updateSong($data, $where);
+                }
+
+                $this->set_response($this->postData, REST_Controller::HTTP_OK);    
             } else {
                 $this->set_response($playlist_data, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);    
             }

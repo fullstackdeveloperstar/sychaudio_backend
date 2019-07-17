@@ -16,6 +16,7 @@ class Dashboard extends REST_Controller
         $this->load->model('homeslider_model');
         $this->load->model('video_model');
         $this->load->model('musicreview_model');
+        $this->load->model('social_model');
         
         $this->postData = $this->request->body;
         $this->headers = $this->input->request_headers();
@@ -215,6 +216,24 @@ class Dashboard extends REST_Controller
            
             $this->musicreview_model->save($about);
             $this->set_response($about, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function sociallinks_get()
+    {
+        $social = $this->social_model->get();
+        $this->set_response($social, REST_Controller::HTTP_OK);
+    }
+
+    public function sociallinks_post()
+    {
+        if(!AUTHORIZATION::checkAdminAuth()) {
+            $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
+        } else {
+            $social = $this->postData;
+           
+            $this->social_model->save($social);
+            $this->set_response($social, REST_Controller::HTTP_OK);
         }
     }
 }
