@@ -236,7 +236,7 @@ class Song extends REST_Controller
         // header('Content-type: ' . $objInfo->header['_info']['content_type']);
         // echo $obj->body;
 
-
+        // $id = str_replace(" ","+",$id);
         $bucket = 'music-sync';
         $keyname = $id;
 
