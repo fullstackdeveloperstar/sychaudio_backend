@@ -130,6 +130,7 @@ class Auth extends REST_Controller
             }
             
             $where['user_email'] = $this->postData['email'];
+            $where['is_verified'] = '1';
             $users = $this->user_model->getUsersByWhere($where);
             if(count($users) == 1) {
                 $user = $users[0];
