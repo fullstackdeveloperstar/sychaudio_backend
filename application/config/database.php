@@ -76,13 +76,13 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
+	// 'hostname' => 'localhost',
+	// 'username' => 'root',
+	// 'password' => '',
 
-	// 'hostname' => 'database-1.czgvw0tz6vgo.us-west-1.rds.amazonaws.com',
-	// 'username' => 'admin',
-	// 'password' => 'soksunae123',
+	'hostname' => 'database-1.czgvw0tz6vgo.us-west-1.rds.amazonaws.com',
+	'username' => 'admin',
+	'password' => 'soksunae123',
 
 	'database' => 'synchaudio',
 	'dbdriver' => 'mysqli',

@@ -44,6 +44,12 @@ class Placement extends REST_Controller
         $this->set_response($return_data, REST_Controller::HTTP_OK);
     }
 
+    public function placement_get($placement_id)
+    {
+        $placementItem = $this->placement_model->getById($placement_id);
+        $this->set_response($placementItem, REST_Controller::HTTP_OK);
+    }
+
     public function placement_post() {
         if(!AUTHORIZATION::checkAdminAuth()) {
             $this->set_response("Unauthorised", REST_Controller::HTTP_UNAUTHORIZED);
@@ -54,6 +60,8 @@ class Placement extends REST_Controller
             $placement_data['placement_youtube'] = $this->postData['placement_youtube'];
             $placement_data['placement_linkto'] = $this->postData['placement_linkto'];
             $placement_data['placement_description'] = $this->postData['placement_description'];
+            $placement_data['placement_spotify_embed'] = $this->postData['placement_spotify_embed'];
+
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
             $placement_data['created_datetime'] =  mdate($datestring, $time);
@@ -81,6 +89,7 @@ class Placement extends REST_Controller
             $placement_data['placement_youtube'] = $this->postData['placement_youtube'];
             $placement_data['placement_linkto'] = $this->postData['placement_linkto'];
             $placement_data['placement_description'] = $this->postData['placement_description'];
+            $placement_data['placement_spotify_embed'] = $this->postData['placement_spotify_embed'];
 
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
