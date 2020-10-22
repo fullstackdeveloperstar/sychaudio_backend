@@ -100,6 +100,7 @@ class Artist extends REST_Controller
             $artist_data['artist_vocal'] = $this->postData['artist_vocal'];
             $artist_data['artist_genre'] = $this->postData['artist_genre'];
             $artist_data['artist_status'] = $this->postData['artist_status'];
+            $artist_data['artist_spotify_embed'] = $this->postData['artist_spotify_embed'];
             $artist_data['artist_members'] = json_encode($this->postData['artist_members']);
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();

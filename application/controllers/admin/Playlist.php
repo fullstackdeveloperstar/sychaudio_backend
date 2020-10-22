@@ -70,6 +70,8 @@ class Playlist extends REST_Controller
             $playlist_data['playlist_thumb'] = $this->postData['playlist_thumb'];
             $playlist_data['playlist_note'] = $this->postData['playlist_note'];
             $playlist_data['playlist_status'] = $this->postData['playlist_status'];
+            $playlist_data['playlist_spotify_embed'] = $this->postData['playlist_spotify_embed'];
+            
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
             $playlist_data['created_datetime'] =  mdate($datestring, $time);
@@ -91,6 +93,8 @@ class Playlist extends REST_Controller
             $playlist_data['playlist_thumb'] = $this->postData['playlist_thumb'];
             $playlist_data['playlist_note'] = $this->postData['playlist_note'];
             $playlist_data['playlist_status'] = $this->postData['playlist_status'];
+            $playlist_data['playlist_spotify_embed'] = $this->postData['playlist_spotify_embed'];
+
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();
             $playlist_data['created_datetime'] =  mdate($datestring, $time);
@@ -129,6 +133,7 @@ class Playlist extends REST_Controller
             $playlist_data['playlist_thumb'] = $this->postData['playlist_thumb'];
             $playlist_data['playlist_note'] = $this->postData['playlist_note'];
             $playlist_data['playlist_status'] = $this->postData['playlist_status'];
+            $playlist_data['playlist_spotify_embed'] = $this->postData['playlist_spotify_embed'];
 
             $datestring = '%Y-%m-%d %h:%i:%s';
             $time = time();

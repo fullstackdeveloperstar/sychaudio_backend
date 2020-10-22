@@ -110,4 +110,25 @@ class Placement extends REST_Controller
             $this->set_response($placement_data, REST_Controller::HTTP_OK);
         }
     }
+
+    public function changefeatured_post($placement_id) {
+        $placement = $this->placement_model->getById($placement_id);
+        $this->set_response($placement, REST_Controller::HTTP_OK);
+        if($placement) {
+            $data = array(
+                'is_featured' => 1
+            );
+
+            $where = array(
+                'placement_id' => $placement_id
+            );
+
+            $this->placement_model->update(array('is_featured' => 0), array('is_featured' => 1));
+
+            $this->placement_model->update($data, $where);
+            $this->set_response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->set_response(array('error'=> 'not exist'), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
